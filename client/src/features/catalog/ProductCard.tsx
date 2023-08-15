@@ -3,9 +3,10 @@ import { Product } from "../../app/models/product";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import agent from "../../app/api/agent";
-import { LoadingButton } from "@material-ui/lab";
 import { useStoreContext } from "../../app/context/StoreContext";
 import { currenncyFormat } from "../../app/util/util";
+import { useAppDispatch } from "../../app/store/ConfigureStore";
+import { setBasket } from "../basket/BasketSlice";
 
 interface Props {
     product: Product;
@@ -13,12 +14,12 @@ interface Props {
 
 export default function ProductCard({ product }: Props) {
     const [loading, setLoading] = useState(false);
-    const { setBasket } = useStoreContext();
+    const dispatch = useAppDispatch();
 
     function handleAddItem(productId: number) {
         setLoading(true);
         agent.Basket.addItem(productId)
-            .then(basket => setBasket(basket))
+            .then(basket => dispatch(setBasket(basket)))
             .catch(er => console.log(er))
             .finally(() => setLoading(false))
     }
@@ -49,7 +50,7 @@ export default function ProductCard({ product }: Props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <LoadingButton loading={loading} onClick={() => handleAddItem(product.id)} size="small">Add to cart</LoadingButton>
+                <Button onClick={() => handleAddItem(product.id)} size="small">Add to cart</Button>
                 <Button component={Link} to={`/catalog/${product.id}`} size="small">View</Button>
             </CardActions>
         </Card>

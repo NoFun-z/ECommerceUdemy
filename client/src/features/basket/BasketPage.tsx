@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react"
-import { Basket } from "../../app/models/basket"
+import { useState } from "react"
 import agent from "../../app/api/agent";
-import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Box, Button, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Add, Delete, Remove } from "@mui/icons-material";
-import { useStoreContext } from "../../app/context/StoreContext";
-import { LoadingButton } from "@material-ui/lab";
 import BasketSummary from "./BasketSummary";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/store/ConfigureStore";
+import { removeItem, setBasket } from "./BasketSlice";
 
 export default function BasketPage() {
 
-  const { basket, setBasket, removeItem } = useStoreContext();
+  const { basket } = useAppSelector(state => state.basket);
+  const dispatch = useAppDispatch();
   const [status, setStatus] = useState({
     loading: false,
     name: ''
@@ -20,7 +19,7 @@ export default function BasketPage() {
   function handleAddItem(productId: number, name: string) {
     setStatus({ loading: true, name });
     agent.Basket.addItem(productId)
-      .then(basket => setBasket(basket))
+      .then(basket => dispatch(setBasket(basket)))
       .catch(er => console.log(er))
       .finally(() => setStatus({ loading: false, name }));
   }
@@ -28,7 +27,7 @@ export default function BasketPage() {
   function handleRemoveItem(productId: number, quantity = 1, name: string) {
     setStatus({ loading: true, name });
     agent.Basket.removeItem(productId, quantity)
-      .then(() => removeItem(productId, quantity))
+      .then(() => dispatch(removeItem({ productId, quantity })))
       .catch(er => console.log(er))
       .finally(() => setStatus({ loading: false, name }));
   }
@@ -63,28 +62,28 @@ export default function BasketPage() {
                 </TableCell>
                 <TableCell align="right">{(row.price / 100).toFixed(2)}</TableCell>
                 <TableCell align="center">
-                  <LoadingButton
-                    loading={status.loading && status.name === 'rem' + row.productId}
+                  <Button
+                    // loading={status.loading && status.name === 'rem' + row.productId}
                     onClick={() => handleRemoveItem(row.productId, 1, 'rem' + row.productId)}
                     color='error'>
                     <Remove />
-                  </LoadingButton>
+                  </Button>
                   {row.quantity}
-                  <LoadingButton
-                    loading={status.loading && status.name === 'add' + row.productId}
+                  <Button
+                    // loading={status.loading && status.name === 'add' + row.productId}
                     onClick={() => handleAddItem(row.productId, 'add' + row.productId)}
                     color='secondary'>
                     <Add />
-                  </LoadingButton>
+                  </Button>
                 </TableCell>
                 <TableCell align="right">{((row.price / 100) * row.quantity).toFixed(2)}</TableCell>
                 <TableCell align="right">
-                  <LoadingButton
-                    loading={status.loading && status.name === 'del' + row.productId}
+                  <Button
+                    //loading={status.loading && status.name === 'del' + row.productId}
                     onClick={() => handleRemoveItem(row.productId, row.quantity, 'del' + row.productId)}
                     color='error'>
                     <Delete />
-                  </LoadingButton>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

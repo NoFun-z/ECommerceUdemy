@@ -5,24 +5,17 @@ import { useState } from "react";
 import agent from "../../app/api/agent";
 import { useStoreContext } from "../../app/context/StoreContext";
 import { currenncyFormat } from "../../app/util/util";
-import { useAppDispatch } from "../../app/store/ConfigureStore";
-import { setBasket } from "../basket/BasketSlice";
+import { useAppDispatch, useAppSelector } from "../../app/store/ConfigureStore";
+import { addBasketItemAsync, setBasket } from "../basket/BasketSlice";
 
 interface Props {
     product: Product;
 }
 
 export default function ProductCard({ product }: Props) {
-    const [loading, setLoading] = useState(false);
+    const {status} = useAppSelector(state => state.basket)
     const dispatch = useAppDispatch();
 
-    function handleAddItem(productId: number) {
-        setLoading(true);
-        agent.Basket.addItem(productId)
-            .then(basket => dispatch(setBasket(basket)))
-            .catch(er => console.log(er))
-            .finally(() => setLoading(false))
-    }
 
     return (
         <Card>
@@ -50,7 +43,7 @@ export default function ProductCard({ product }: Props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button onClick={() => handleAddItem(product.id)} size="small">Add to cart</Button>
+                <Button onClick={() => dispatch(addBasketItemAsync({productId: product.id}))} size="small">Add to cart</Button>
                 <Button component={Link} to={`/catalog/${product.id}`} size="small">View</Button>
             </CardActions>
         </Card>

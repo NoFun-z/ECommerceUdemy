@@ -27,7 +27,7 @@ export default function BasketPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {basket.items.map((row) => (
+            {basket.items?.map((row) => (
               <TableRow
                 key={row.productId}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

@@ -15,8 +15,14 @@ namespace API.Data
                     Email = "Criz1672@gmail.com"
                 };
 
-                await userManager.CreateAsync(user, "password1672");
-                await userManager.AddToRoleAsync(user, "Member");
+                var result = await userManager.CreateAsync(user, "password1672");
+
+                if (result.Succeeded)
+                {
+                    // Update the security stamp
+                    await userManager.UpdateSecurityStampAsync(user);
+                    await userManager.AddToRoleAsync(user, "Member");
+                }
 
                 var admin = new User
                 {
@@ -24,8 +30,14 @@ namespace API.Data
                     Email = "admin@gmail.com"
                 };
 
-                await userManager.CreateAsync(admin, "password1511");
-                await userManager.AddToRolesAsync(admin, new[] { "Member", "Admin" });
+                var result2 = await userManager.CreateAsync(admin, "password1511");
+
+                if (result2.Succeeded)
+                {
+                    // Update the security stamp
+                    await userManager.UpdateSecurityStampAsync(admin);
+                    await userManager.AddToRolesAsync(admin, new[] { "Member", "Admin" });
+                }
             }
 
             if (context.Products.Any()) return;

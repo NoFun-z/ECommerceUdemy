@@ -2,9 +2,14 @@ import { TableContainer, Paper, Table, TableBody, TableRow, TableCell, Typograph
 import { currenncyFormat } from "../../app/util/util";
 import { useAppSelector } from "../../app/store/ConfigureStore";
 
-export default function BasketSummary() {
-    const {basket} = useAppSelector(state => state.basket);
-    const subtotal = basket?.items.reduce((sum, item) => sum + (item.quantity * item.price), 0) ?? 0;
+interface Props {
+    subtotal?: number;
+}
+
+export default function BasketSummary({ subtotal }: Props) {
+    const { basket } = useAppSelector(state => state.basket);
+    if (subtotal === undefined)
+        subtotal = basket?.items.reduce((sum, item) => sum + (item.quantity * item.price), 0) ?? 0;
     const deliveryFee = subtotal > 10000 ? 0 : 500;
 
     return (
@@ -26,7 +31,7 @@ export default function BasketSummary() {
                         </TableRow>
                         <TableRow>
                             <TableCell>
-                                <span style={{fontStyle: 'italic'}}>*Orders over $100 qualify for free delivery</span>
+                                <span style={{ fontStyle: 'italic' }}>*Orders over $100 qualify for free delivery</span>
                             </TableCell>
                         </TableRow>
                     </TableBody>

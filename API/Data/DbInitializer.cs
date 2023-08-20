@@ -15,7 +15,7 @@ namespace API.Data
                     Email = "Criz1672@gmail.com"
                 };
 
-                var result = await userManager.CreateAsync(user, "password1672");
+                var result = await userManager.CreateAsync(user, "Pa$$w0rd");
 
                 if (result.Succeeded)
                 {
@@ -30,7 +30,7 @@ namespace API.Data
                     Email = "admin@gmail.com"
                 };
 
-                var result2 = await userManager.CreateAsync(admin, "password1511");
+                var result2 = await userManager.CreateAsync(admin, "Pa$$w0rd");
 
                 if (result2.Succeeded)
                 {

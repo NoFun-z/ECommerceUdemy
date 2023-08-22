@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -10,14 +9,9 @@ import Container from '@mui/material/Container';
 import { createTheme } from '@mui/material/styles';
 import { Paper } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import agent from '../../app/api/agent';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../app/store/ConfigureStore';
 import { signInUser } from './AccountSlice';
-
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function Login() {
     const navigate = useNavigate();

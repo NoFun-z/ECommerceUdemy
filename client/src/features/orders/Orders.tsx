@@ -6,7 +6,7 @@ import { Order } from "../../app/models/order";
 import { currenncyFormat } from "../../app/util/util";
 import OrderDetailed from "./OrderDetailed";
 
-export default function Order() {
+export default function Orders() {
     const [orders, setOrders] = useState<Order[] | null>(null);
     const [loading, setLoading] = useState(false);
     const [selectedOrderNumber, setSelectedOrderNumber] = useState(0);
@@ -17,15 +17,19 @@ export default function Order() {
             .then(orders => setOrders(orders))
             .catch(er => console.log(er))
             .finally(() => setLoading(false))
-    })
+    }, [])
 
     if (loading) return <LoadingComponent message="Loading orders..." />
 
-    if (selectedOrderNumber > 0) return;
-    <OrderDetailed
-        order={orders?.find(o => o.id == selectedOrderNumber)!}
-        setSelectedOrder={setSelectedOrderNumber}
-    />
+    if (selectedOrderNumber > 0) {
+        return (
+            <OrderDetailed
+                order={orders?.find(o => o.id === selectedOrderNumber)!}
+                setSelectedOrder={setSelectedOrderNumber}
+            />
+        );
+    }
+    
 
     return (
         <TableContainer component={Paper}>

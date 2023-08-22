@@ -17,7 +17,6 @@ const initialState: AccountState = {
 export const signInUser = createAsyncThunk<User, FieldValues>(
     'account/signInUser',
     async (data, thunkAPI) => {
-        thunkAPI.dispatch(setUsers(JSON.parse(localStorage.getItem('user')!)));
         try {
             const userDTO = await agent.Account.login(data);
             const {basket, ...user} = userDTO;
@@ -34,6 +33,7 @@ export const signInUser = createAsyncThunk<User, FieldValues>(
 export const fetchCurrentUser = createAsyncThunk<User>(
     'account/fetchCurrentUser',
     async (_, thunkAPI) => {
+        thunkAPI.dispatch(setUsers(JSON.parse(localStorage.getItem('user')!)));
         try {
             const userDTO = await agent.Account.currentUser();
             const {basket, ...user} = userDTO;

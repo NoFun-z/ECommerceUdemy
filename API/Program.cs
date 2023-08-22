@@ -29,6 +29,13 @@ builder.Services.AddSwaggerGen(c => {
             Type = ReferenceType.SecurityScheme
         }
     };
+    c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+        {
+            jwtSecurityScheme, Array.Empty<string>()
+        }
+    });
 });
 
 
@@ -51,6 +58,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<PaymentService>();
 
 var app = builder.Build();
 

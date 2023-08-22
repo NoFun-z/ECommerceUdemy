@@ -71,7 +71,8 @@ namespace API.Controllers
                 BuyerId = User.Identity.Name,
                 ShippingAddress = orderDTO.ShippingAddress,
                 Subtotal = Subtotal,
-                DeliveryFee = deliveryfee
+                DeliveryFee = deliveryfee,
+                PaymentIntentId = basket.PaymentIntentId
             };
 
             _context.Orders.Add(order);

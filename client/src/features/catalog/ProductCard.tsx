@@ -1,19 +1,16 @@
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
 import { Product } from "../../app/models/product";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import agent from "../../app/api/agent";
-import { useStoreContext } from "../../app/context/StoreContext";
-import { currenncyFormat } from "../../app/util/util";
+import { currencyFormat } from "../../app/util/util";
 import { useAppDispatch, useAppSelector } from "../../app/store/ConfigureStore";
-import { addBasketItemAsync, setBasket } from "../basket/BasketSlice";
+import { addBasketItemAsync } from "../basket/BasketSlice";
 
 interface Props {
     product: Product;
 }
 
 export default function ProductCard({ product }: Props) {
-    const {status} = useAppSelector(state => state.basket)
+    const { status } = useAppSelector(state => state.basket)
     const dispatch = useAppDispatch();
 
 
@@ -36,14 +33,14 @@ export default function ProductCard({ product }: Props) {
             />
             <CardContent>
                 <Typography gutterBottom color='secondary' variant="h5">
-                    {currenncyFormat(product.price)}
+                    {currencyFormat(product.price)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {product.brand} / {product.type}
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button onClick={() => dispatch(addBasketItemAsync({productId: product.id}))} size="small">Add to cart</Button>
+                <Button onClick={() => dispatch(addBasketItemAsync({ productId: product.id }))} size="small">Add to cart</Button>
                 <Button component={Link} to={`/catalog/${product.id}`} size="small">View</Button>
             </CardActions>
         </Card>

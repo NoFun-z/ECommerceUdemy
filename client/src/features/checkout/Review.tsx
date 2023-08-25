@@ -1,5 +1,4 @@
-import { Typography, List, ListItem, ListItemText, Grid } from '@mui/material';
-import { Fragment } from 'react';
+import { Typography, Grid } from '@mui/material';
 import BasketSummary from '../basket/BasketSummary';
 import BasketTable from '../basket/BasketTable';
 import { useAppSelector } from '../../app/store/ConfigureStore';

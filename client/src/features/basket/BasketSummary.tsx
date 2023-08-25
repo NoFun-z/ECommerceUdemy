@@ -1,5 +1,5 @@
 import { TableContainer, Paper, Table, TableBody, TableRow, TableCell, Typography } from "@mui/material";
-import { currenncyFormat } from "../../app/util/util";
+import { currencyFormat } from "../../app/util/util";
 import { useAppSelector } from "../../app/store/ConfigureStore";
 
 interface Props {
@@ -19,15 +19,15 @@ export default function BasketSummary({ subtotal }: Props) {
                     <TableBody>
                         <TableRow>
                             <TableCell colSpan={2}>Subtotal</TableCell>
-                            <TableCell align="right">{currenncyFormat(subtotal)}</TableCell>
+                            <TableCell align="right">{currencyFormat(subtotal)}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Delivery fee*</TableCell>
-                            <TableCell align="right">{currenncyFormat(deliveryFee)}</TableCell>
+                            <TableCell align="right">{currencyFormat(deliveryFee)}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Total</TableCell>
-                            <TableCell align="right">{currenncyFormat(subtotal + deliveryFee)}</TableCell>
+                            <TableCell align="right">{currencyFormat(subtotal + deliveryFee)}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>
